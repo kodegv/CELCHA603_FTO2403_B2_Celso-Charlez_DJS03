@@ -185,6 +185,13 @@ function addEventListeners() {
   });
 }
 
+// Check user's color scheme preference
+if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    applyTheme("night");
+  } else {
+    applyTheme("day");
+  }
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
