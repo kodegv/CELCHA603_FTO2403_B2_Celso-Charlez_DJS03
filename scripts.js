@@ -109,6 +109,29 @@ elements.listButton.innerHTML = `
 `;
 elements.listButton.disabled = remainingBooks <= 0;
 
+// Function to add event listeners
+function addEventListeners() {
+    elements.searchCancel.addEventListener("click", () => {
+      elements.searchOverlay.open = false;
+    });
+  
+    elements.settingsCancel.addEventListener("click", () => {
+      elements.settingsOverlay.open = false;
+    });
+  
+    elements.headerSearch.addEventListener("click", () => {
+      elements.searchOverlay.open = true;
+      elements.searchTitle.focus();
+    });
+  
+    elements.headerSettings.addEventListener("click", () => {
+      elements.settingsOverlay.open = true;
+    });
+  
+    elements.listClose.addEventListener("click", () => {
+      elements.listActive.open = false;
+    });
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
