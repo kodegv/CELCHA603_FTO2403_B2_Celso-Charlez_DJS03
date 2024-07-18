@@ -1,9 +1,40 @@
+// Importing required data from data.js
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
 
-let page = 1;
-let matches = books
+let currentPage = 1;
+let filteredBooks = books
 
-const starting = document.createDocumentFragment()
+// HTML Elements Object
+const elements = {
+    head: document.querySelector("head"),
+    header: document.querySelector("header"),
+  
+    settingsOverlay: document.querySelector("[data-settings-overlay]"),
+    settingsForm: document.querySelector("[data-settings-form]"),
+    settingsTheme: document.querySelector("[data-settings-theme]"),
+    settingsCancel: document.querySelector("[data-settings-cancel]"),
+  
+    headerSearch: document.querySelector("[data-header-search]"),
+    headerSettings: document.querySelector("[data-header-settings]"),
+  
+    searchOverlay: document.querySelector("[data-search-overlay]"),
+    searchForm: document.querySelector("[data-search-form]"),
+    searchTitle: document.querySelector("[data-search-title]"),
+    searchGenres: document.querySelector("[data-search-genres]"),
+    searchAuthors: document.querySelector("[data-search-authors]"),
+    searchCancel: document.querySelector("[data-search-cancel]"),
+  
+    listItems: document.querySelector("[data-list-items]"),
+    listBlur: document.querySelector("[data-list-blur]"),
+    listImage: document.querySelector("[data-list-image]"),
+    listTitle: document.querySelector("[data-list-title]"),
+    listSubtitle: document.querySelector("[data-list-subtitle]"),
+    listDescription: document.querySelector("[data-list-description]"),
+    listMessage: document.querySelector("[data-list-message]"),
+    listButton: document.querySelector("[data-list-button]"),
+    listActive: document.querySelector("[data-list-active]"),
+    listClose: document.querySelector("[data-list-close]"),
+  };
 
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
