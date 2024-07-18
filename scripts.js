@@ -87,6 +87,16 @@ function createOption(value, text) {
     return option;
   }
 
+  // Function to populate select elements with options
+function populateSelect(element, options, defaultText) {
+    const fragment = document.createDocumentFragment();
+    fragment.appendChild(createOption("any", defaultText));
+    for (const [value, text] of Object.entries(options)) {
+      fragment.appendChild(createOption(value, text));
+    }
+    element.appendChild(fragment);
+  }
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
