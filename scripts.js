@@ -66,6 +66,27 @@ function createBookElement({ author, id, image, title }) {
     </div>
   `;
 
+  return button;
+}
+
+// Function to display book previews
+function displayBookPreviews() {
+  const fragment = document.createDocumentFragment();
+  for (const book of filteredBooks.slice(0, BOOKS_PER_PAGE)) {
+    const bookElement = createBookElement(book);
+    fragment.appendChild(bookElement);
+  }
+  elements.listItems.appendChild(fragment);
+}
+
+// Function to create an option element
+function createOption(value, text) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.innerText = text;
+    return option;
+  }
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
