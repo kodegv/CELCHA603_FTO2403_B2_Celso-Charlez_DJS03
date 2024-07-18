@@ -208,6 +208,25 @@ function applyTheme(theme) {
     document.documentElement.style.setProperty("--color-light", theme === "night" ? "10, 10, 20" : "255, 255, 255");
   }
 
+  // Function to update book list
+function updateBookList(result) {
+    const fragment = document.createDocumentFragment();
+    for (const book of result.slice(0, BOOKS_PER_PAGE)) {
+      const bookElement = createBookElement(book);
+      fragment.appendChild(bookElement);
+    }
+    elements.listItems.innerHTML = "";
+    elements.listItems.appendChild(fragment);
+  
+    elements.listButton.disabled = result.length <= BOOKS_PER_PAGE;
+    elements.listButton.innerHTML = `
+      <span>Show more</span>
+      <span class="list__remaining"> (${Math.max(result.length - BOOKS_PER_PAGE, 0)})</span>
+    `;
+  
+    elements.listMessage.classList.toggle("list__message_show", result.length === 0);
+  }
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
