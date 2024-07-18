@@ -37,14 +37,14 @@ const elements = {
 };
 
     // Event listener for DOM content loaded
-    document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     loadMetaHTML();
     displayBookPreviews();
     addEventListeners();
   });
 
     // Function to fetch and set meta HTML
-    function loadMetaHTML() {
+function loadMetaHTML() {
     fetch("./meta.html")
       .then((response) => response.text())
       .then((data) => {
@@ -52,6 +52,12 @@ const elements = {
       });
   }
   
+// Function to create a book element
+function createBookElement({ author, id, image, title }) {
+    const button = document.createElement("button");
+    button.classList.add("preview");
+    button.dataset.preview = id;
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
