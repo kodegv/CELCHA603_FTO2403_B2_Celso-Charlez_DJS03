@@ -97,6 +97,18 @@ function populateSelect(element, options, defaultText) {
     element.appendChild(fragment);
   }
 
+  // Populate genres and authors select elements
+populateSelect(elements.searchGenres, genres, "All Genres");
+populateSelect(elements.searchAuthors, authors, "All Authors");
+
+// Update the "Show more" button
+const remainingBooks = filteredBooks.length - currentPage * BOOKS_PER_PAGE;
+elements.listButton.innerHTML = `
+  <span>Show more</span>
+  <span class="list__remaining"> (${remainingBooks > 0 ? remainingBooks : 0})</span>
+`;
+elements.listButton.disabled = remainingBooks <= 0;
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
