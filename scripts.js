@@ -34,8 +34,15 @@ const elements = {
     listButton: document.querySelector("[data-list-button]"),
     listActive: document.querySelector("[data-list-active]"),
     listClose: document.querySelector("[data-list-close]"),
-  };
+};
 
+    // Event listener for DOM content loaded
+    document.addEventListener("DOMContentLoaded", () => {
+    loadMetaHTML();
+    displayBookPreviews();
+    addEventListeners();
+  });
+  
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
