@@ -168,6 +168,23 @@ function addEventListeners() {
     `;
   });
 
+  // Event listener for displaying book details
+  elements.listItems.addEventListener("click", (event) => {
+    const previewId = event.target.closest(".preview")?.dataset.preview;
+    if (!previewId) return;
+
+    const activeBook = books.find((book) => book.id === previewId);
+    if (activeBook) {
+      elements.listActive.open = true;
+      elements.listBlur.src = activeBook.image;
+      elements.listImage.src = activeBook.image;
+      elements.listTitle.innerText = activeBook.title;
+      elements.listSubtitle.innerText = `${authors[activeBook.author]} (${new Date(activeBook.published).getFullYear()})`;
+      elements.listDescription.innerText = activeBook.description;
+    }
+  });
+}
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
