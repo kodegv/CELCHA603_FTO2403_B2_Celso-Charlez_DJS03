@@ -192,6 +192,22 @@ if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").match
     applyTheme("day");
   }
 
+  // Event listener for settings form submission
+elements.settingsForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const { theme } = Object.fromEntries(formData);
+    applyTheme(theme);
+  
+    elements.settingsOverlay.open = false;
+  });
+
+  // Function to switch between light and dark themes
+function applyTheme(theme) {
+    document.documentElement.style.setProperty("--color-dark", theme === "night" ? "255, 255, 255" : "10, 10, 20");
+    document.documentElement.style.setProperty("--color-light", theme === "night" ? "10, 10, 20" : "255, 255, 255");
+  }
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
