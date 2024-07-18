@@ -42,6 +42,15 @@ const elements = {
     displayBookPreviews();
     addEventListeners();
   });
+
+    // Function to fetch and set meta HTML
+    function loadMetaHTML() {
+    fetch("./meta.html")
+      .then((response) => response.text())
+      .then((data) => {
+        elements.head.innerHTML = data;
+      });
+  }
   
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
