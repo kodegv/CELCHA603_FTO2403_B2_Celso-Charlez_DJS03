@@ -151,6 +151,23 @@ function addEventListeners() {
     elements.searchOverlay.open = false;
   });
 
+  // Event listener for "Show more" button
+  elements.listButton.addEventListener("click", () => {
+    const fragment = document.createDocumentFragment();
+    for (const book of filteredBooks.slice(currentPage * BOOKS_PER_PAGE, (currentPage + 1) * BOOKS_PER_PAGE)) {
+      const bookElement = createBookElement(book);
+      fragment.appendChild(bookElement);
+    }
+    elements.listItems.appendChild(fragment);
+    currentPage += 1;
+
+    elements.listButton.disabled = filteredBooks.length <= currentPage * BOOKS_PER_PAGE;
+    elements.listButton.innerHTML = `
+      <span>Show more</span>
+      <span class="list__remaining"> (${Math.max(filteredBooks.length - currentPage * BOOKS_PER_PAGE, 0)})</span>
+    `;
+  });
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
