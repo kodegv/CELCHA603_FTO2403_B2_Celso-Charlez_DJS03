@@ -132,6 +132,25 @@ function addEventListeners() {
       elements.listActive.open = false;
     });
 
+    // Event listener for search form submission
+  elements.searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const filters = Object.fromEntries(formData);
+    filteredBooks = books.filter((book) => {
+      const matchesTitle = filters.title.trim() === "" || book.title.toLowerCase().includes(filters.title.toLowerCase());
+      const matchesAuthor = filters.author === "any" || book.author === filters.author;
+      const matchesGenre = filters.genre === "any" || book.genres.includes(filters.genre);
+      return matchesTitle && matchesAuthor && matchesGenre;
+    });
+
+    currentPage = 1;
+    updateBookList(filteredBooks);
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    elements.searchOverlay.open = false;
+  });
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
