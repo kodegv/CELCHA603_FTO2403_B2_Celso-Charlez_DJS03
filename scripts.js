@@ -203,3 +203,81 @@ function setupEventListeners() {
     }
   });
 }
+
+// Checks user prefrance for color theme
+if (
+  window.matchMedia &&
+  window.matchMedia("(prefers-color-scheme: dark)").matches
+) {
+  let theme = "night";
+  toggleTheme(theme);
+} else {
+  let theme = "day";
+  toggleTheme(theme);
+}
+
+// Handles color theme change
+htmlElements.dataSettingsForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const { theme } = Object.fromEntries(formData);
+  toggleTheme(theme);
+
+  htmlElements.dataSettingsOverlay.open = false;
+});
+
+// Switches between Light and Dark themes
+function toggleTheme(theme) {
+  document.documentElement.style.setProperty(
+    "--color-dark",
+    theme === "night" ? "255, 255, 255" : "10, 10, 20"
+  );
+  document.documentElement.style.setProperty(
+    "--color-light",
+    theme === "night" ? "10, 10, 20" : "255, 255, 255"
+  );
+}
+
+// Create book preview elements
+function createBookPreviewElement({ author, id, image, title }) {
+  const element = document.createElement("button");
+  element.classList.add("preview");
+  element.dataset.preview = id;
+
+  element.innerHTML = `
+    <img class="preview__image" src="${image}" />
+    <div class="preview__info">
+      <h3 class="preview__title">${title}</h3>
+      <div class="preview__author">${authors[author]}</div>
+    </div>
+  `;
+
+  return element;
+}
+
+// Updates book list
+function updateBookList(result) {
+  const newItems = document.createDocumentFragment();
+
+  for (const book of result.slice(0, BOOKS_PER_PAGE)) {
+    const element = createBookPreviewElement(book);
+    newItems.appendChild(element);
+  }
+
+  htmlElements.dataListItems.innerHTML = "";
+  htmlElements.dataListItems.appendChild(newItems);
+
+  htmlElements.dataListButton.disabled = result.length <= BOOKS_PER_PAGE;
+  htmlElements.dataListButton.innerHTML = `
+    <span>Show more</span>
+    <span class="list__remaining"> (${Math.max(
+      result.length - BOOKS_PER_PAGE,
+      0
+    )})</span>
+  `;
+
+  htmlElements.dataListMessage.classList.toggle(
+    "list__message_show",
+    result.length === 0
+  );
+}
