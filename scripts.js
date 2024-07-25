@@ -35,14 +35,14 @@ const htmlElements = {
   dataListClose: document.querySelector("[data-list-close]"),
 };
 
-// Calls functions on dom load
+// calls functions on dom load
 document.addEventListener("DOMContentLoaded", () => {
   getMETAHTML();
   addBookPreview();
   setupEventListeners();
 });
 
-//Fetches data then adds it to dom
+// fetches data then adds it to dom
 function getMETAHTML() {
   fetch("./meta.html")
     .then((response) => response.text())
@@ -51,7 +51,7 @@ function getMETAHTML() {
     });
 }
 
-// Creates book element for html
+// creates book element for html
 function createBookElement({ author, id, image, title }) {
   const element = document.createElement("button");
   element.classList.add("preview");
@@ -67,7 +67,7 @@ function createBookElement({ author, id, image, title }) {
 
   return element;
 }
-// Adds book preview to html
+// adds book preview to html
 function addBookPreview() {
   const starting = document.createDocumentFragment();
   for (const book of matches.slice(0, BOOKS_PER_PAGE)) {
@@ -76,3 +76,37 @@ function addBookPreview() {
   }
   htmlElements.dataListItems.appendChild(starting);
 }
+
+// creates option element
+function createOption(value, text) {
+  const option = document.createElement("option");
+  option.value = value;
+  option.innerText = text;
+  return option;
+}
+
+function populateSelect(element, options, firstOptionText) {
+  const fragment = document.createDocumentFragment();
+  fragment.appendChild(createOption("any", firstOptionText));
+  for (const [value, text] of Object.entries(options)) {
+    fragment.appendChild(createOption(value, text));
+  }
+  element.appendChild(fragment);
+}
+
+populateSelect(htmlElements.dataSearchGenres, genres, "All Genres");
+
+populateSelect(htmlElements.dataSearchAuthers, authors, "All Authors");
+
+// updates the show more button
+const remainingBooks = matches.length - page * BOOKS_PER_PAGE;
+htmlElements.dataListButton.innerHTML = `
+  <span>Show more</span>
+  <span class="list__remaining"> (${
+    remainingBooks > 0 ? remainingBooks : 0
+  })</span>
+`;
+htmlElements.dataListButton.disabled = remainingBooks <= 0;
+htmlElements.dataListButton.innerText = `Show more (${
+  books.length - BOOKS_PER_PAGE
+})`;
