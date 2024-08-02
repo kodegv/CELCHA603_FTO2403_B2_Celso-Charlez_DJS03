@@ -1,9 +1,10 @@
+// Imports data from data.js
 import { books, authors, genres, BOOKS_PER_PAGE } from "./data.js";
 
 let page = 1;
 let matches = books;
 
-// dom
+// HTML Elements Object
 const htmlElements = {
   head: document.querySelector("head"),
   header: document.querySelector("header"),
@@ -35,14 +36,14 @@ const htmlElements = {
   dataListClose: document.querySelector("[data-list-close]"),
 };
 
-// calls functions on dom load
+// Calls functions on dom load
 document.addEventListener("DOMContentLoaded", () => {
   getMETAHTML();
   addBookPreview();
   setupEventListeners();
 });
 
-// fetches data then adds it to dom
+//Fetches data then adds it to dom
 function getMETAHTML() {
   fetch("./meta.html")
     .then((response) => response.text())
@@ -51,7 +52,7 @@ function getMETAHTML() {
     });
 }
 
-// creates book element for html
+// Creates book element for html
 function createBookElement({ author, id, image, title }) {
   const element = document.createElement("button");
   element.classList.add("preview");
@@ -67,7 +68,7 @@ function createBookElement({ author, id, image, title }) {
 
   return element;
 }
-// adds book preview to html
+// Adds book preview to html
 function addBookPreview() {
   const starting = document.createDocumentFragment();
   for (const book of matches.slice(0, BOOKS_PER_PAGE)) {
@@ -77,7 +78,7 @@ function addBookPreview() {
   htmlElements.dataListItems.appendChild(starting);
 }
 
-// creates option element
+// Creates option element
 function createOption(value, text) {
   const option = document.createElement("option");
   option.value = value;
@@ -85,6 +86,7 @@ function createOption(value, text) {
   return option;
 }
 
+// Function populates select element with genres && Authors
 function populateSelect(element, options, firstOptionText) {
   const fragment = document.createDocumentFragment();
   fragment.appendChild(createOption("any", firstOptionText));
@@ -94,11 +96,13 @@ function populateSelect(element, options, firstOptionText) {
   element.appendChild(fragment);
 }
 
+// Populate genres select
 populateSelect(htmlElements.dataSearchGenres, genres, "All Genres");
 
+// Populate authors select
 populateSelect(htmlElements.dataSearchAuthers, authors, "All Authors");
 
-// updates the show more button
+// Update the "Show more" button
 const remainingBooks = matches.length - page * BOOKS_PER_PAGE;
 htmlElements.dataListButton.innerHTML = `
   <span>Show more</span>
@@ -263,21 +267,3 @@ function updateBookList(result) {
     const element = createBookPreviewElement(book);
     newItems.appendChild(element);
   }
-
-  htmlElements.dataListItems.innerHTML = "";
-  htmlElements.dataListItems.appendChild(newItems);
-
-  htmlElements.dataListButton.disabled = result.length <= BOOKS_PER_PAGE;
-  htmlElements.dataListButton.innerHTML = `
-    <span>Show more</span>
-    <span class="list__remaining"> (${Math.max(
-      result.length - BOOKS_PER_PAGE,
-      0
-    )})</span>
-  `;
-
-  htmlElements.dataListMessage.classList.toggle(
-    "list__message_show",
-    result.length === 0
-  );
-}
