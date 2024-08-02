@@ -267,3 +267,21 @@ function updateBookList(result) {
     const element = createBookPreviewElement(book);
     newItems.appendChild(element);
   }
+
+  htmlElements.dataListItems.innerHTML = "";
+  htmlElements.dataListItems.appendChild(newItems);
+
+  htmlElements.dataListButton.disabled = result.length <= BOOKS_PER_PAGE;
+  htmlElements.dataListButton.innerHTML = `
+    <span>Show more</span>
+    <span class="list__remaining"> (${Math.max(
+      result.length - BOOKS_PER_PAGE,
+      0
+    )})</span>
+  `;
+
+  htmlElements.dataListMessage.classList.toggle(
+    "list__message_show",
+    result.length === 0
+  );
+}
