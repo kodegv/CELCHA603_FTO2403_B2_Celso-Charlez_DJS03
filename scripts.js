@@ -102,14 +102,7 @@ populateSelect(htmlElements.dataSearchGenres, genres, "All Genres");
 // Populate authors select
 populateSelect(htmlElements.dataSearchAuthers, authors, "All Authors");
 
-// Update the "Show more" button
-const remainingBooks = matches.length - page * BOOKS_PER_PAGE;
-htmlElements.dataListButton.innerHTML = `
-  <span>Show more</span>
-  <span class="list__remaining"> (${
-    remainingBooks > 0 ? remainingBooks : 0
-  })</span>
-`;
+
 htmlElements.dataListButton.disabled = remainingBooks <= 0;
 htmlElements.dataListButton.innerText = `Show more (${
   books.length - BOOKS_PER_PAGE
